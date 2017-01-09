@@ -1,0 +1,117 @@
+<?php
+/**
+* Pacific NM (https://www.pacificnm.com)
+*
+* @link      https://github.com/pacificnm/pnm for the canonical source repository
+* @copyright Copyright (c) 20011-2016 Pacific NM USA Inc. (https://www.pacificnm.com)
+* @license
+*/
+?>
+<div class="row">
+	<div class="col-xs-12">
+		<div class="box box-primary">
+			<div class="box-header with-border">
+				<h3 class="box-title">
+					<i class="<?php echo $this->layout()->pageIcon; ?>" aria-hidden="true"></i>
+					<?php echo $this->translate($this->layout()->pageTitle); ?> 
+					<small><?php echo $this->translate("View"); ?></small>
+				</h3>
+				<div class="box-tools">
+					<?php echo $this->deleteButton("category-attribute-delete", array("id" => $this->entity->getCategoryAttributeId())); ?>
+					
+					<?php echo $this->updateButton("category-attribute-update", array("id" => $this->entity->getCategoryAttributeId())); ?>
+				</div>
+			</div>
+			<div class="box-body box-profile">
+                <h3 class="profile-username text-center">
+                	<?php echo $this->entity->getCategoryAttributeName(); ?>
+                </h3>
+                <p class="text-muted text-center">
+                	<b><?php echo $this->translate("Type"); ?></b> <?php echo $this->entity->getCategoryAttributeType(); ?>
+                </p>
+                <ul class="list-group list-group-unbordered">
+                    <li class="list-group-item">
+                    	<b><?php echo $this->translate("Attribute Id"); ?>:</b>
+                    	<?php echo $this->entity->getCategoryAttributeId(); ?>
+                    </li>
+                    <li class="list-group-item">
+                    	<b><?php echo $this->translate("Type"); ?>:</b>
+                    	<?php echo $this->entity->getCategoryAttributeType(); ?>
+                    </li>
+                    <li class="list-group-item">
+                    	<b><?php echo $this->translate("Name"); ?>:</b>
+                    	<?php echo $this->entity->getCategoryAttributeName(); ?>
+                    </li>
+                    <li class="list-group-item">
+                    	<b><?php echo $this->translate("Active"); ?>:</b>
+                    	<?php echo ($this->entity->getCategoryAttributeActive() == 1 ? $this->translate("Yes") : $this->translate("No")); ?>
+                    </li>
+                </ul>
+            </div>
+		</div>
+	</div>
+</div>
+
+
+<?php if($this->entity->getCategoryAttributeType()  != "Text" && $this->entity->getCategoryAttributeType() != "Textarea"): ?>
+<div class="row">
+	<div class="col-xs-12">
+		<div class="box box-primary">
+			<div class="box-header with-border">
+				<h3 class="box-title">
+					<i class="<?php echo $this->layout()->pageIcon; ?>" aria-hidden="true"></i>
+					<?php echo $this->translate("Options"); ?>
+				</h3>
+				<div class="box-tools">
+					<?php echo $this->createButton('category-attribute-option-create', array(
+					    'categoryAttributeId' => $this->entity->getCategoryAttributeId()
+					)); ?>
+				</div>
+			</div>
+			<?php if($this->optionEntitys->count() == 0): ?>
+			<div class="box-body">
+				<div class="alert alert-info">
+					<p>
+						<i class="fa fa-info-circle" aria-hidden="true"></i> 
+						<?php echo $this->translate("No Options found"); ?>
+					</p>
+				</div>
+			</div>
+			<?php else: ?>
+			<div class="box-body  no-padding">
+				<div class="row">
+					<div class="col-xs-12">
+						<table class="table table-bordered table-hover table-striped table-condensed">
+							<thead>
+								<tr>
+                                    <th><?php echo $this->translate("Option Id"); ?></th>
+                                    <th><?php echo $this->translate("Display"); ?></th>
+                                    <th><?php echo $this->translate("Value"); ?></th>
+                                    <th><?php echo $this->translate("Active"); ?></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            <?php foreach($this->optionEntitys as $optionEntity): ?>
+                            	<tr>
+                            		<td><?php echo $optionEntity->getCategoryAttributeOptionId(); ?></td>
+                            		<td>
+                            			<a href="<?php echo $this->url('category-attribute-option-view', array(
+                            			    'id' => $optionEntity->getCategoryAttributeOptionId()
+                            			));?>" title="<?php echo $optionEntity->getCategoryAttributeOptionDisplay(); ?>">
+                            				<?php echo $optionEntity->getCategoryAttributeOptionDisplay(); ?>
+                            			</a>
+                            		</td>
+                            		<td><?php echo $optionEntity->getCategoryAttributeOptionValue(); ?></td>
+                            		<td><?php echo ($optionEntity->getCategoryAttributeOptionActive() == 1 ? $this->translate("Yes") : $this->translate("No")); ?></td>
+                            	</tr>
+                            <?php endforeach; ?>
+                            </tbody>
+                       	</table>
+                    </div>
+                </div>
+			</div>
+			<?php endif;?>
+		</div>
+	</div>
+</div>
+<?php endif; ?>
